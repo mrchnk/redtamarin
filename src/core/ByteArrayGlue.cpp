@@ -9,7 +9,7 @@
 #include "zlib.h"
 
 // Bugzilla 729336 followup: fix project files to add lzma to search path
-#include "../other-licenses/lzma/LzmaLib.h"
+#include "LzmaLib.h"
 
 // Compiler and architecture dependent byte swapping functions.
 //
@@ -901,7 +901,7 @@ namespace avmplus
         // that are referencing this one.
         // This is done to avoid a long safepoint task as all other
         // workers must be halted during a safepoint.
-        const bool cShared = IsShared();		// ByteArray's sharedness is immutable implicitly for the duration of this op since this worker is doing this op and cannot share it and it is not already shared (e.g. placed in a MessaegChannel).        
+        const bool cShared = IsShared();		// ByteArray's sharedness is immutable implicitly for the duration of this op since this worker is doing this op and cannot share it and it is not already shared (e.g. placed in a MessaegChannel).
 		FixedHeapRef<Buffer> origBuffer = m_buffer;
         if (cShared) {
             m_buffer = mmfx_new(Buffer());

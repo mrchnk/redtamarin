@@ -14,7 +14,7 @@
 
 #ifdef VMCFG_SELFTEST
 // Allow selftests coded directly to nanojit APIs.
-#include "../nanojit/nanojit.h"
+#include "nanojit.h"
 #endif
 
 #if defined AVMPLUS_MAC || defined AVMPLUS_UNIX

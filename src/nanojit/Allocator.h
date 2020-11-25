@@ -89,7 +89,7 @@ namespace nanojit
 
 // function for computing type alignment
 template <typename T>
-inline size_t alignof() {
+inline size_t find_alignof() {
     struct Wrapper { char c; T t; private: Wrapper() {} };
     return sizeof(Wrapper) - sizeof(T);
 }

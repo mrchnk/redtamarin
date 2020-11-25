@@ -272,7 +272,7 @@ namespace avmplus
 #include "NamespaceSet.h"
 #include "Multiname.h"
 #include "Sampler.h"
-#include "../nanojit/njconfig.h"
+#include "njconfig.h"
 #include "Coder.h"
 #include "../AVMPI/float4Support.h"
 #include "exec.h"

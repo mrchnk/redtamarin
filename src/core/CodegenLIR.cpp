@@ -140,17 +140,17 @@ namespace avmplus
         #define DEBUGGERADDR(f)   debuggerAddr((int (Debugger::*)())(&f))
         #define FUNCADDR(addr) (uintptr_t)addr
 
-        intptr_t coreAddr( int (AvmCore::*f)() )
+        uintptr_t coreAddr( int (AvmCore::*f)() )
         {
             RETURN_METHOD_PTR(AvmCore, f);
         }
 
-        intptr_t  gcAddr( int (MMgc::GC::*f)() )
+        uintptr_t  gcAddr( int (MMgc::GC::*f)() )
         {
             RETURN_METHOD_PTR(MMgc::GC, f);
         }
 
-        intptr_t  envAddr( int (MethodEnv::*f)() )
+    uintptr_t  envAddr( int (MethodEnv::*f)() )
         {
             RETURN_METHOD_PTR(MethodEnv, f);
         }
@@ -162,27 +162,27 @@ namespace avmplus
         }
     #endif /* DEBUGGER */
 
-        intptr_t  arrayAddr(int (ArrayObject::*f)())
+    uintptr_t  arrayAddr(int (ArrayObject::*f)())
         {
             RETURN_METHOD_PTR(ArrayObject, f);
         }
 
-        intptr_t  stringAddr(int (String::*f)())
+    uintptr_t  stringAddr(int (String::*f)())
         {
             RETURN_METHOD_PTR(String, f);
         }
 
-        intptr_t vectorIntAddr(int (IntVectorObject::*f)())
+    uintptr_t vectorIntAddr(int (IntVectorObject::*f)())
         {
             RETURN_METHOD_PTR(IntVectorObject, f);
         }
 
-        intptr_t vectorUIntAddr(int (UIntVectorObject::*f)())
+    uintptr_t vectorUIntAddr(int (UIntVectorObject::*f)())
         {
             RETURN_METHOD_PTR(UIntVectorObject, f);
         }
 
-        intptr_t vectorDoubleAddr(int (DoubleVectorObject::*f)())
+    uintptr_t vectorDoubleAddr(int (DoubleVectorObject::*f)())
         {
             RETURN_METHOD_PTR(DoubleVectorObject, f);
         }
@@ -198,11 +198,11 @@ namespace avmplus
             RETURN_METHOD_PTR(Float4VectorObject, f);
         }
     #endif // VMCFG_FLOAT
-        intptr_t vectorObjAddr(int (ObjectVectorObject::*f)())
+    uintptr_t vectorObjAddr(int (ObjectVectorObject::*f)())
         {
             RETURN_METHOD_PTR(ObjectVectorObject, f);
         }
-        intptr_t efAddr( int (ExceptionFrame::*f)() )
+    uintptr_t efAddr( int (ExceptionFrame::*f)() )
         {
             RETURN_METHOD_PTR(ExceptionFrame, f);
         }

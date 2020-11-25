@@ -6,7 +6,7 @@
 
 #include "avmshell.h"
 #ifdef VMCFG_NANOJIT
-#include "../nanojit/nanojit.h"
+#include "nanojit.h"
 #endif
 #include <float.h>
 
