@@ -4,7 +4,6 @@ project(redtamarin)
 set(CMAKE_CXX_STANDARD 14)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
-
 add_definitions(-DAVMSHELL_BUILD)
 add_executable(avm "")
 
@@ -20,10 +19,13 @@ elseif (${CMAKE_HOST_APPLE})
             PRIVATE
             src/shell/avmshellMac.cpp)
 elseif (${CMAKE_HOST_UNIX})
-    add_definitions(-DUNUX)
+    add_definitions(-DUNIX)
     target_sources(avm
             PRIVATE
             src/shell/avmshellUnix.cpp)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
+    target_link_libraries(avm PRIVATE Threads::Threads)
 endif ()
 
 add_subdirectory(src/core)
