@@ -13,11 +13,13 @@ if (${CMAKE_HOST_WIN32})
     target_sources(avm
             PRIVATE
             src/shell/avmshellWin.cpp)
+    target_link_libraries(avm shell)
 elseif (${CMAKE_HOST_APPLE})
     add_definitions(-D_MAC)
     target_sources(avm
             PRIVATE
             src/shell/avmshellMac.cpp)
+    target_link_libraries(avm shell)
 elseif (${CMAKE_HOST_UNIX})
     add_definitions(-DUNIX)
     target_sources(avm
@@ -25,7 +27,7 @@ elseif (${CMAKE_HOST_UNIX})
             src/shell/avmshellUnix.cpp)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
-    target_link_libraries(avm PRIVATE Threads::Threads)
+    target_link_libraries(avm PRIVATE shell Threads::Threads)
 endif ()
 
 add_subdirectory(src/core)
@@ -43,5 +45,3 @@ add_subdirectory(src/pcre)
 add_subdirectory(src/other-licenses/lzma)
 add_subdirectory(src/other-licenses/zlib)
 add_subdirectory(src/nanojit)
-
-target_link_libraries(avm shell)
