@@ -3,5 +3,4 @@ target_sources(platform
         coff.cpp
         MathUtilsWin.cpp
         NativeFunctionWin.cpp
-        OSDepWin.cpp
-        win64setjmp.asm)
+        OSDepWin.cpp)

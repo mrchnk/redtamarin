@@ -120,31 +120,14 @@ namespace avmplus
 #endif /* X86_MATH */
     }
 
-#ifndef X86_MATH
-#if defined(UNDER_CE) || defined(UNDER_RT)
-// TODO: FIXME: _WIN8_ARM_SLOWDOWN_ here. Open ToFix
     REALLY_INLINE double MathUtils::mod(double x, double y)
     {
         if (!y) {
             return kNaN;
         }
+
         return ::fmod(x, y);
     }
-#else //#if defined(UNDER_CE)
-    extern "C" {
-        // See win64setjmp.asm
-        double modInternal(double x, double y);
-    }
-
-    REALLY_INLINE double MathUtils::mod(double x, double y)
-    {
-        if (!y) {
-            return kNaN;
-        }
-        return modInternal(x, y);
-    }
-#endif //#if defined(UNDER_CE)
-#endif /* X86_MATH */
 
 #ifndef X86_MATH
     REALLY_INLINE double MathUtils::powInternal(double x, double y)

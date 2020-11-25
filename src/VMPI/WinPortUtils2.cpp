@@ -219,7 +219,7 @@ static int setenv16_with_putenv16(const wchar *name, const wchar *value)
             (void)VMPI_strncpy16(&buffer[nameLen + 1], value, valueLen);
             buffer[nameLen + 1 + valueLen] = '\0';
 
-            r = _wputenv(&buffer[0]);
+            r = _wputenv((wchar_t *) &buffer[0]);
 
             if(buffer != &buffer_[0])
             {
@@ -356,7 +356,7 @@ const char *VMPI_getenv(const char *name)
 
 const wchar *VMPI_getenv16(const wchar *name)
 {
-    return _wgetenv( name );
+    return (wchar *) _wgetenv((wchar_t *) name );
 }
 
 ldiv_t VMPI_ldiv(double numer, double denom)
@@ -458,7 +458,7 @@ int VMPI_putenv(char *name)
 
 int VMPI_putenv16(wchar *name)
 {
-    return _wputenv( name );
+    return _wputenv((wchar_t *) name);
 }
 
 char *VMPI_realpath(char const *path)
@@ -500,7 +500,7 @@ wchar *VMPI_realpath16(wchar const *path)
         return NULL;
     }
     
-    result = _wfullpath( full, path, PATH_MAX );
+    result = (wchar *) _wfullpath((wchar_t *) full, (wchar_t *) path, PATH_MAX );
     
     if( result != NULL ) {
         return result;
@@ -550,7 +550,7 @@ int VMPI_system(const char *command)
 
 int VMPI_system16(const wchar *command)
 {
-    return _wsystem( command );
+    return _wsystem((wchar_t *) command);
 }
 
 
@@ -562,7 +562,7 @@ int VMPI_unsetenv(const char *name)
 
 int VMPI_unsetenv16(const wchar *name)
 {
-    return setenv16_with_putenv16( name, L"" );
+    return setenv16_with_putenv16( name, (wchar *) L"" );
 }
 
 // ---- C.stdlib ---- END
@@ -1324,7 +1324,7 @@ int VMPI_chmod(const char *path, int mode)
 
 int VMPI_chmod16(const wchar *path, int mode)
 {
-    return _wchmod( path, (mode_t) mode );
+    return _wchmod((wchar_t *) path, (mode_t) mode );
 }
 
 /*int VMPI_fstat(int fildes, struct stat *buf)
@@ -1382,7 +1382,7 @@ int VMPI_mkdir(const char *path, int mode)
 int VMPI_mkdir16(const wchar *path, int mode)
 {
     (void)mode;
-    return _wmkdir( path );
+    return _wmkdir((wchar_t *)  path );
 }
 
 
@@ -1567,12 +1567,12 @@ char **VMPI_GetEnviron()
 
 wchar **VMPI_GetEnviron16()
 {
-    return _wenviron;
+    return (wchar **) _wenviron;
 }
 
 wchar *VMPI_getcwd16(wchar *buf, size_t size)
 {
-    return _wgetcwd( buf, (int) size );
+    return (wchar *) _wgetcwd((wchar_t *) buf, (int) size );
 }
 
 int VMPI_gethostname(char *name, int namelen)
@@ -1714,7 +1714,7 @@ void VMPI_getUserName(char *username)
 void VMPI_getUserName16(wchar *username)
 {
     DWORD bufsize = LOGIN_NAME_MAX;
-    GetUserNameW(username, &bufsize);
+    GetUserNameW((LPWSTR) username, &bufsize);
 }
 // ---- shell.OperatingSystem ---- END
 
@@ -1735,7 +1735,7 @@ bool VMPI_isAttributeHidden16(const wchar *path)
     /* NOTE:
        the AS3 function preprend "\\?\" to the path
     */
-    DWORD attrib = GetFileAttributesW( path );
+    DWORD attrib = GetFileAttributesW((LPCWSTR) path );
 
     if(attrib & FILE_ATTRIBUTE_HIDDEN) {
         return true;
@@ -1762,7 +1762,7 @@ double VMPI_getFreeDiskSpace(const char *path)
 double VMPI_getFreeDiskSpace16(const wchar *path)
 {
     ULARGE_INTEGER available;
-    if(!GetDiskFreeSpaceExW(path, &available, NULL, NULL)) {
+    if(!GetDiskFreeSpaceExW((LPCWSTR) path, &available, NULL, NULL)) {
         return -1;
     }
     return static_cast<double>(available.QuadPart);
@@ -1780,7 +1780,7 @@ double VMPI_getTotalDiskSpace(const char *path)
 double VMPI_getTotalDiskSpace16(const wchar *path)
 {
     ULARGE_INTEGER total;
-    if(!GetDiskFreeSpaceExW(path, NULL, &total, NULL)) {
+    if(!GetDiskFreeSpaceExW((LPCWSTR) path, NULL, &total, NULL)) {
         return -1;
     }
     return static_cast<double>(total.QuadPart);

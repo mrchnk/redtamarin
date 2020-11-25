@@ -130,6 +130,7 @@ int VMPI_vsnprintf(char *s, size_t n, const char *format, va_list args);
 #include <ctype.h>
 #include <limits.h>
 
+#include <winsock2.h>
 #include <windows.h>
 #include <malloc.h>
 
@@ -152,37 +153,38 @@ inline void* operator new(size_t, void* p) { return p; }
 
 typedef void *maddr_ptr;
 
+#include <setjmpex.h>
 // Set up a jmp_buf suitable for VMPI_longjmpNoUnwind.
-//#define VMPI_setjmpNoUnwind ::setjmp
+#define VMPI_setjmpNoUnwind ::setjmp
 
 // Jump to an active jmp_buf that was set up by VMPI_setjmpNoUnwind.
 // Under no circumstances may C++ destructors be unwound during the
 // jump (MSVC likes to do this by default).
-//#define VMPI_longjmpNoUnwind ::longjmp
+#define VMPI_longjmpNoUnwind ::longjmp
 
-#ifdef UNDER_RT
-    #include <setjmpex.h>
-    extern "C"
-    {
-        void __cdecl longjmp_arm(jmp_buf jmpbuf, int arg);
-    }
-    #define VMPI_setjmpNoUnwind     ::setjmp
-    #define VMPI_longjmpNoUnwind    ::longjmp_arm
-#else
-	#ifdef VMCFG_64BIT
-		#include <setjmpex.h>
-		extern "C"
-		{
-			_int64 __cdecl longjmp64(jmp_buf jmpbuf, _int64 arg);
-		}
-		#define VMPI_setjmpNoUnwind     ::setjmp
-		#define VMPI_longjmpNoUnwind    ::longjmp64
-	#else
-		#include <setjmp.h>
-		#define VMPI_setjmpNoUnwind     ::setjmp
-		#define VMPI_longjmpNoUnwind    ::longjmp
-	#endif
-#endif
+//#ifdef UNDER_RT
+//    #include <setjmpex.h>
+//    extern "C"
+//    {
+//        void __cdecl longjmp_arm(jmp_buf jmpbuf, int arg);
+//    }
+//    #define VMPI_setjmpNoUnwind     ::setjmp
+//    #define VMPI_longjmpNoUnwind    ::longjmp_arm
+//#else
+//	#ifdef VMCFG_64BIT
+//		#include <setjmpex.h>
+//		extern "C"
+//		{
+//			_int64 __cdecl longjmp64(jmp_buf jmpbuf, _int64 arg);
+//		}
+//		#define VMPI_setjmpNoUnwind     ::setjmp
+//		#define VMPI_longjmpNoUnwind    ::longjmp64
+//	#else
+//		#include <setjmp.h>
+//		#define VMPI_setjmpNoUnwind     ::setjmp
+//		#define VMPI_longjmpNoUnwind    ::longjmp
+//	#endif
+//#endif
 
 #if !defined(UNDER_CE)
   // Newer versions of the Windows SDK set up the intrinsics slightly differently

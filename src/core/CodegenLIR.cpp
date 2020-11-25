@@ -211,7 +211,7 @@ namespace avmplus
     using namespace nanojit;
 
     #if defined _MSC_VER && !defined AVMPLUS_ARM
-    #  define SETJMP ((uintptr_t)_setjmp3)
+    #  define SETJMP ((uintptr_t)VMPI_setjmpNoUnwind)
     #elif defined AVMPLUS_MAC_CARBON
     #  define SETJMP setjmpAddress
     #else

@@ -648,15 +648,15 @@ typedef struct siginfo_t siginfo_t;
 //getchar_unlocked //need to be defined in VMPI2.h as it is a macro
 #define VMPI_pclose            ::_pclose
 #define VMPI_perror            ::perror
-#define VMPI_perror16          ::_wperror
+#define VMPI_perror16(message)          _wperror((wchar_t *) message)
 #define VMPI_popen             ::_popen
-#define VMPI_popen16           ::_wpopen
+#define VMPI_popen16(command, mode)           _wpopen((wchar_t *) command, (wchar_t *) mode)
 //putc_unlocked //need to be defined in VMPI2.h as it is a macro
 //putchar_unlocked //need to be defined in VMPI2.h as it is a macro
 #define VMPI_remove            ::remove
-#define VMPI_remove16          ::_wremove
+#define VMPI_remove16(path)          _wremove((wchar_t *) path)
 #define VMPI_rename            ::rename
-#define VMPI_rename16          ::_wrename
+#define VMPI_rename16(oldname, newname)          _wrename((wchar_t *) oldname, (wchar_t *) newname)
 #define VMPI_rewind            ::rewind
 // ---- C.stdio ---- END
 
@@ -742,29 +742,29 @@ typedef struct siginfo_t siginfo_t;
 //VMPI_strcat
 #define VMPI_strcat16    ::wcscat
 //VMPI_strchr
-#define VMPI_strchr16    ::wcschr 
+#define VMPI_strchr16(str, c)    wcschr((wchar_t *) str, c)
 //VMPI_strcmp
-#define VMPI_strcmp16    ::wcscmp
+#define VMPI_strcmp16(str1, str2)    wcscmp((wchar_t *) str1, (wchar_t *) str2)
 #define VMPI_strcoll     ::strcoll
-#define VMPI_strcoll16   ::wcscoll
+#define VMPI_strcoll16(str1, str2)   wcscoll((wchar_t *) str1, (wchar_t *) str2)
 //strcoll_l()
 //VMPI_strcpy
 #define VMPI_strcpy16    ::wcscpy
 //strcspn()
 #define VMPI_strdup      ::_strdup
-#define VMPI_strdup16    ::_wcsdup
+#define VMPI_strdup16(strSource)    ((wchar *) _wcsdup((wchar_t *) strSource))
 #define VMPI_strerror    ::strerror
-#define VMPI_strerror16  ::_wcserror
+#define VMPI_strerror16(errnum)  ((wchar *) _wcserror(errnum))
 //strerror_l()
 //strerror_r()
 //VMPI_strlen
-#define VMPI_strlen16    ::wcslen
+#define VMPI_strlen16(str)    wcslen((wchar_t *) str)
 //VMPI_strncat
 #define VMPI_strncat16   ::wcsncat
 //VMPI_strncmp
 #define VMPI_strncmp16   ::wcsncmp
 //VMPI_strncpy
-#define VMPI_strncpy16   ::wcsncpy
+#define VMPI_strncpy16(strDest, strSource, count)   wcsncpy((wchar_t *) strDest, (const wchar_t *) strSource, count)
 //strndup()
 //strnlen()
 //strpbrk()
@@ -772,7 +772,7 @@ typedef struct siginfo_t siginfo_t;
 #define VMPI_strrchr16   ::wcsrchr
 //strsignal()
 #define VMPI_strspn      ::strspn
-#define VMPI_strspn16    ::wcsspn
+#define VMPI_strspn16(str, strCharset)    wcsspn((wchar_t *) str, (wchar_t *) strCharset)
 //VMPI_strstr
 #define VMPI_strstr16    ::wcsstr
 //strtok()
@@ -1074,7 +1074,7 @@ struct hostent *gethostent();
 #define VMPI_umask   ::_umask
 #define VMPI_fstat   ::_fstat64
 #define VMPI_stat    ::_stat64
-#define VMPI_stat16  ::_wstat64
+#define VMPI_stat16(path, buffer)  _wstat64((wchar_t *) path, buffer)
 // ---- C.sys.stat ---- END
 
 
@@ -1173,9 +1173,9 @@ struct hostent *gethostent();
 int ftruncate(int fildes, off_t length);
 
 #define VMPI_access      ::_access
-#define VMPI_access16    ::_waccess
+#define VMPI_access16(path, mode)    _waccess((wchar_t *) path, mode)
 #define VMPI_chdir       ::_chdir
-#define VMPI_chdir16     ::_wchdir
+#define VMPI_chdir16(dirname)     _wchdir((wchar_t *) dirname)
 //#define VMPI_close       ::_close
 #define VMPI_dup         ::_dup
 #define VMPI_dup2        ::_dup2
@@ -1195,9 +1195,9 @@ int ftruncate(int fildes, off_t length);
 
 #define VMPI_getpid      ::_getpid
 #define VMPI_rmdir       ::_rmdir
-#define VMPI_rmdir16     ::_wrmdir
+#define VMPI_rmdir16(dirname)     _wrmdir((wchar_t *) dirname)
 #define VMPI_unlink      ::_unlink
-#define VMPI_unlink16    ::_wunlink
+#define VMPI_unlink16(filename)    _wunlink((wchar_t *) filename)
 // ---- C.unistd ---- END
 
 

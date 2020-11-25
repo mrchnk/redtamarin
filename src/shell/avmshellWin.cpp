@@ -8,10 +8,12 @@
 
 #pragma warning(disable: 4201)
 
+#include <WinSock2.h>
 #include "avmshell.h"
 #include "WinFile.h"
 #include <Mmsystem.h>
 
+#pragma comment(lib, "winmm.lib")
 
 namespace avmshell
 {
